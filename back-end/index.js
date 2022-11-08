@@ -38,13 +38,14 @@ app.get('/lectures/:lecID/professors', (req, res) => {
             let result = Object.values(JSON.parse(JSON.stringify(rows)));
             result.forEach((v) => profIDS.push(v.profID));
 
-            console.log(profIDS);
-
-            connection.query(`SELECT * from Professor WHERE id in (${profIDS})`, (err, results) => {
-                if(err) throw err;
-                console.log(results);
-                res.json(results);
-            })
+            if(profIDS.length == 0){
+                res.json(profIDS);
+            } else{
+                connection.query(`SELECT * from Professor WHERE id in (${profIDS})`, (err, results) => {
+                    if(err) throw err;
+                    res.json(results);
+                });
+            }
             // res.json(rows);
         });
 
@@ -95,11 +96,13 @@ app.post('/lectures/:lecID/questions', (req, res) => {
 
     var lecId = req.params.lecID;
     var title = req.body.title;
+    var authID = req.body.authorID;
     var contents = req.body.contents;
 
-    connection.query(`INSERT INTO Question (lectureId, title, contents) VALUES(${lecId}, '${title}', '${contents}')`, (err, result) => {
+    connection.query(`INSERT INTO Question (lectureId, authorId, title, contents) VALUES(${lecId}, ${authID}, '${title}', '${contents}')`, (err, result) => {
         if(err) throw err;
         console.log("1 record inserted");
+        console.log(result);
     });
     res.redirect('/');
     // res.send('ok')
