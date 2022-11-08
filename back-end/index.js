@@ -97,7 +97,10 @@ app.get('/questions/:qID', (req, res) => {
 
     connection.query(`SELECT * from Question WHERE id=${qId}`, (err, row) => {
         if(err) throw err;
-
+        res.json(row);
+    });
+    connection.query(`SELECT * from Answer WHERE questionId=${qId}`, (err, row) => {
+        if(err) throw err;
         res.json(row);
     });
 });
