@@ -26,8 +26,29 @@ app.get('/lectures', (req, res) => {
 });
 
 //해당 과목 중 특정 교수님 분반의 질문 목록 반환
-app.get('/', (req, res) => {
+app.get('/lectures/:lecID/professors', (req, res) => {
+    const lecId = parseInt(req.params.lecID);
 
+    if(isNaN(lecId)){
+        res.send('err');
+    } else{
+        connection.query(`SELECT profID from Prof_Lec WHERE lecID=${lecId}`, (err, rows) => {
+            if(err) throw err;
+            let profIDS = [];
+            let result = Object.values(JSON.parse(JSON.stringify(rows)));
+            result.forEach((v) => profIDS.push(v.profID));
+
+            console.log(profIDS);
+
+            connection.query(`SELECT * from Professor WHERE id in (${profIDS})`, (err, results) => {
+                if(err) throw err;
+                console.log(results);
+                res.json(results);
+            })
+            // res.json(rows);
+        });
+
+    }
 });
 
 //선택한 과목에 해당하는 질문 목록 반환
@@ -59,14 +80,13 @@ app.post('/lectures/:lecID/questions', (req, res) => {
     connection.query(`INSERT INTO Question (lectureId, title, contents) VALUES(${lecId}, '${title}', '${contents}')`, (err, result) => {
         if(err) throw err;
         console.log("1 record inserted");
-        console.log(result);
     });
     res.redirect('/');
     // res.send('ok')
 });
 
 //질문에 해당하는 답변 목록 반환
-app.get('/answers/:qID', (req, res) => {
+app.get('/questions/:qID/answers', (req, res) => {
     const qId = parseInt(req.params.qID);
 
     connection.query(`SELECT * from Answer WHERE quetionId=${qId}`, (err, rows) => {
@@ -75,7 +95,18 @@ app.get('/answers/:qID', (req, res) => {
     })
 });
 
+//답변 작성 api
+app.post('/questions/:qID/answers', (req, res) => {
 
+    var qId = req.params.qID;
+    var contents = req.body.contents;
+
+    connection.query(`INSERT INTO Answer (questionId, contents) VALUES (${qId, '${contents}'})`, (err, result) => {
+        if(err) throw err;
+        console.log("1 answer inserted!");
+        res.redirect('/');
+    });
+});
 
 
 app.listen(app.get('port'), () => {
