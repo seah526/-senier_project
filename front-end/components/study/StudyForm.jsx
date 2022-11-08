@@ -1,4 +1,12 @@
+import { useRouter } from 'next/router';
 export default function StudyForm() {
+  const router = useRouter();
+  const submitHandler = e => {
+    e.preventDefault();
+    const ans = confirm('제출하시겠습니까?');
+
+    router.replace('/study');
+  };
   return (
     <>
       <div>
@@ -20,10 +28,26 @@ export default function StudyForm() {
             </div>
           </div>
           <div className='mt-5 md:col-span-2 md:mt-0'>
-            <form action='#' method='POST'>
+            <form onSubmit={submitHandler} action='#' method='POST'>
               <div className='shadow sm:overflow-hidden sm:rounded-md'>
                 <div className='space-y-6 bg-white px-4 py-5 sm:p-6'>
                   <div className='grid grid-cols-3 gap-6'>
+                    <div className='col-span-3 sm:col-span-2'>
+                      <label
+                        htmlFor='company-website'
+                        className='block text-sm font-medium text-gray-700'>
+                        제목
+                      </label>
+                      <div className='mt-1 flex rounded-md shadow-sm'>
+                        <input
+                          type='text'
+                          name='company-website'
+                          id='company-website'
+                          className='text-black p-1 bg-white border-2 block w-full flex-1 rounded-none rounded-r-md border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm'
+                          placeholder='제목을 입력해주세요.'
+                        />
+                      </div>
+                    </div>
                     <div className='col-span-3 sm:col-span-2'>
                       <label
                         htmlFor='company-website'
@@ -38,7 +62,7 @@ export default function StudyForm() {
                           type='text'
                           name='company-website'
                           id='company-website'
-                          className='bg-white border-2 block w-full flex-1 rounded-none rounded-r-md border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm'
+                          className='text-black bg-white border-2 block w-full flex-1 rounded-none rounded-r-md border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm'
                           placeholder='www.example.com'
                         />
                       </div>
@@ -56,7 +80,7 @@ export default function StudyForm() {
                         id='about'
                         name='about'
                         rows={10}
-                        className='border-2 mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm bg-white p-3 text-black'
+                        className=' border-2 mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm bg-white p-3 text-black'
                         placeholder='내용을 입력해 주세요'
                         defaultValue={''}
                       />

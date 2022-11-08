@@ -5,12 +5,8 @@ const studyId = () => {
     <>
       <div className='mt-10 overflow-hidden bg-white shadow sm:rounded-lg'>
         <div className='px-4 py-5 sm:px-6'>
-          <h3 className='text-lg font-medium leading-6 text-gray-900'>
-            Applicant Information
-          </h3>
-          <p className='mt-1 max-w-2xl text-sm text-gray-500'>
-            Personal details and application.
-          </p>
+          <h3 className='text-lg font-bold leading-6 text-gray-900 '>제목</h3>
+          <p className='mt-1 max-w-2xl text-sm text-gray-500'>Study details.</p>
         </div>
         <div className='border-t border-gray-200'>
           <dl>
@@ -22,10 +18,10 @@ const studyId = () => {
             </div>
             <div className='bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6'>
               <dt className='text-sm font-medium text-gray-500'>
-                Application for
+                Kakao openURL
               </dt>
               <dd className='mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0'>
-                Backend Developer
+                https://open.kakao.com/o/gNxDSCLd
               </dd>
             </div>
             <div className='bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6'>
@@ -37,11 +33,9 @@ const studyId = () => {
               </dd>
             </div>
             <div className='bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6'>
-              <dt className='text-sm font-medium text-gray-500'>
-                Salary expectation
-              </dt>
+              <dt className='text-sm font-medium text-gray-500'>Capacity</dt>
               <dd className='mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0'>
-                $120,000
+                50명
               </dd>
             </div>
             <div className='bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6'>

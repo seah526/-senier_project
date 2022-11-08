@@ -5,6 +5,8 @@ export default function QuestionForm() {
   const lecId = router.query.classId;
   const submitHandler = e => {
     e.preventDefault();
+    const ans = confirm('질문을 올리시겠습니까?');
+    router.push('/');
   };
   return (
     <>
@@ -42,7 +44,7 @@ export default function QuestionForm() {
                           type='text'
                           name='company-website'
                           id='company-website'
-                          className='p-1 bg-white border-2 block w-full flex-1 rounded-none rounded-r-md border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm'
+                          className='text-black p-1 bg-white border-2 block w-full flex-1 rounded-none rounded-r-md border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm'
                           placeholder='제목을 입력하세요.'
                         />
                       </div>
