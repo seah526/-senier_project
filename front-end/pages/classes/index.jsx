@@ -44,8 +44,8 @@ const index = () => {
   }, []);
   return (
     <div>
-      <Classes type={'전공필수'} data={data1} />
-      <Classes type={'전공일반'} data={data2} />
+      <Classes key={'전공필수'} type={'전공필수'} data={data1} />
+      <Classes key={'전공일반'} type={'전공일반'} data={data2} />
     </div>
   );
 };
