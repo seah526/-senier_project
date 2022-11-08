@@ -91,6 +91,17 @@ app.get('/lectures/:lecID/professor/:profID/questions', (req, res) => {
     }
 });
 
+// qID로 특정 질문 정보 호출 
+app.get('/questions/:qID', (req, res) => {
+    const qId = req.params.qID;
+
+    connection.query(`SELECT * from Question WHERE id=${qId}`, (err, row) => {
+        if(err) throw err;
+
+        res.json(row);
+    });
+});
+
 //과목에 해당하는 질문 작성 
 app.post('/lectures/:lecID/questions', (req, res) => {
 
@@ -124,8 +135,9 @@ app.post('/questions/:qID/answers', (req, res) => {
     var qId = req.params.qID;
     var contents = req.body.contents;
 
-    connection.query(`INSERT INTO Answer (questionId, contents) VALUES (${qId, '${contents}'})`, (err, result) => {
+    connection.query(`INSERT INTO Answer (questionId, contents) VALUES (${qId}, '${contents}')`, (err, result) => {
         if(err) throw err;
+        console.log(result);
         console.log("1 answer inserted!");
         res.redirect('/');
     });
