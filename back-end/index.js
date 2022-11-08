@@ -19,7 +19,7 @@ app.get('/', (req, res) => {
 
 //전체 과목 목록 반환
 app.get('/lectures', (req, res) => {
-  connection.query('SELECT id, title, type, prof from Lecture', (error, rows) => {
+  connection.query('SELECT id, title, type from Lecture', (error, rows) => {
     if (error) throw error;
     res.json(rows);
   });
@@ -51,7 +51,7 @@ app.get('/lectures/:lecID/professors', (req, res) => {
     }
 });
 
-//선택한 과목에 해당하는 질문 목록 반환
+//선택한 과목에 해당하는 전체 질문 목록 반환
 app.get('/lectures/:lecID/questions', (req, res) => {
     const lecId  = parseInt(req.params.lecID);
 
@@ -67,6 +67,26 @@ app.get('/lectures/:lecID/questions', (req, res) => {
 
     } catch(err){
 		// return res.json(stat(500, err.message));
+    }
+});
+
+//특정 과목 & 특정 교수님 분반에 해당하는 질문 목록 반환
+app.get('/lectures/:lecID/professor/:profID/questions', (req, res) => {
+    const lecId = parseInt(req.params.lecID);
+    const profId = parseInt(req.params.profID);
+
+    if(isNaN(lecId) || isNaN(profId)){
+        console.log("err");
+    } else{
+        try{
+            connection.query(`SELECT * from Question WHERE lectureId=${lecId} AND profId=${profId}`, (err, rows) => {
+                if(err) throw err;
+                res.json(rows);
+            })
+
+        } catch(err){
+            return res.send(err);
+        }
     }
 });
 
