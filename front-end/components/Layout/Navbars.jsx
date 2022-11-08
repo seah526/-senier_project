@@ -165,8 +165,8 @@ export default function Example({ children }) {
       <footer className='p-4 bg-gray-700'>
         <div className='container mx-auto max-w-7xl px-10 sm:px-8 lg:px-20 text-right'>
           <div className='m-1'>토론은 어떤 학습능력을 키우는가? </div>
-          <div className='m-1'>contact : bulljy@naver.com</div>
-          <div className='m-1'>contact : seah526@naver.com</div>
+          <div className='mt-1'>contact : bulljy@naver.com</div>
+          <div className='md-1'>contact : seah526@naver.com</div>
           <div className='m-1'>Copyright 2022 ⓒ All rights reserved.</div>
         </div>
       </footer>
