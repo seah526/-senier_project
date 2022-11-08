@@ -32,12 +32,12 @@ const DUMMY_DATA = {
     },
     {
       id: 3,
-      title: 'xxx에 대한 질문입니다.',
-      contents: 'xxx에 대한 내용입니다.',
-      createdAt: '2022-5-21',
+      title: 'lll에 대한 질문입니다.',
+      contents: 'lll에 대한 내용입니다.',
+      createdAt: '2022-1-21',
       answerCount: 6,
-      author: { id: 3, nickname: 'lmn' },
-      professor: { id: 3, name: '박oo' },
+      author: { id: 3, nickname: 'zzz' },
+      professor: { id: 2, name: '이oo' },
     },
   ],
 };
@@ -45,7 +45,7 @@ const ClassId = () => {
   const router = useRouter();
   const courseId = router.query.classId;
   const [data, setData] = useState(DUMMY_DATA);
-
+  //TODO: api fetching
   return (
     <div className='my-20 '>
       <div className='text-3xl my-2 font-semibold'>{data.subject}</div>

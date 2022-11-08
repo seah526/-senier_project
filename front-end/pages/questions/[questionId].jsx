@@ -19,7 +19,7 @@ const DUMMY_ANSWERS = [
     createdAt: '2020-10-24',
     id: 2,
     author: { nickname: 'nickname' },
-    date: '2020-10-24',
+    date: '2020-10-25',
     contents: '답변 내용',
   },
 ];

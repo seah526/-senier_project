@@ -3,7 +3,6 @@ import React from 'react';
 import styled from 'styled-components';
 
 const QuestionDetailQ = ({ question }) => {
-  const date = new Date(question?.createdAt) || '';
   return (
     <div>
       <Wrapper>
@@ -12,7 +11,7 @@ const QuestionDetailQ = ({ question }) => {
           {question?.title || '제목없음'}
         </div>
         <div className='title-date'>
-          {question?.author.nickname} · {date?.toLocaleString()}
+          {question?.author.nickname} · {question.date?.toLocaleString()}
         </div>
         <div className='contents'>{question?.contents || '내용없음'}</div>
       </Wrapper>
