@@ -1,3 +1,4 @@
+import { useRouter } from 'next/router';
 import React from 'react';
 import ProfessorTable from '../../components/classes/ProfessorTable';
 import QuestionBox from '../../components/classes/QuestionBox';
@@ -13,6 +14,10 @@ const DUMMY_QUESTION = {
   answerCount: 10,
 };
 const ClassId = () => {
+  const router = useRouter();
+  const courseId = router.query.classId;
+  console.log(courseId);
+
   return (
     <div className='my-20 '>
       <div className='text-3xl my-2 font-semibold'>{'컴퓨터 네트워크'}</div>
