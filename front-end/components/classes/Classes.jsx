@@ -10,7 +10,7 @@ const Classes = props => {
             <Link
               key={ele.id || ele.title}
               href={`/classes/${ele.id || ele.title}`}>
-              <button className='mx-3 bg-slate-500 py-2 px-3 text-lg shadow-inner shadow-gray-700 rounded-md hover:bg-gray-700 hover:text-white'>
+              <button className='mx-3 bg-slate-500 py-2 px-3 text-lg shadow-inner shadow-gray-700 rounded-md hover:bg-gray-700 hover:text-white duration-300'>
                 {ele.title}
               </button>
             </Link>
