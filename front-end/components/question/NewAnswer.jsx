@@ -1,8 +1,12 @@
 import React from 'react';
 
 const NewAnswer = () => {
+  const submitHandler = e => {
+    e.preventDefault();
+    const ans = confirm('답변을 올리시겠습니까?');
+  };
   return (
-    <form>
+    <form onSubmit={submitHandler}>
       <div className='mt-1'>
         <textarea
           id='about'
