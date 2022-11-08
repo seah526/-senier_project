@@ -3,6 +3,8 @@ import React, { useEffect, useState } from 'react';
 import ProfessorTable from '../../components/classes/ProfessorTable';
 import QuestionBox from '../../components/classes/QuestionBox';
 import QuestionTable from '../../components/classes/QuestionTable';
+import axiosInstance from '../api';
+import getLoginId from '../api/login';
 const DUMMY_DATA = {
   id: 1,
   subject: '컴퓨터네트워크',
@@ -42,16 +44,36 @@ const DUMMY_DATA = {
   ],
 };
 const ClassId = () => {
+  const loginId = getLoginId();
   const router = useRouter();
   const courseId = router.query.classId;
   const [data, setData] = useState(DUMMY_DATA);
+  const [professor, setProfessor] = useState([]);
+  const [question, setQuestion] = useState([]);
+  useEffect(() => {
+    if (router.isReady) {
+      axiosInstance.get(`lectures/${courseId}/questions`).then(res => {
+        setQuestion(res.data);
+      });
+      axiosInstance.get(`lectures/${courseId}/professors`).then(res => {
+        setProfessor(res.data);
+      });
+    }
+  }, [router.isReady]);
   //TODO: api fetching
   return (
     <div className='my-20 '>
-      <div className='text-3xl my-2 font-semibold'>{data.subject}</div>
+      <div className='flex justify-between'>
+        <div className='text-3xl my-2 font-semibold'>{data.subject}</div>
+        {loginId && (
+          <button className='mx-3 bg-slate-500 py-2 px-16 text-base shadow-inner shadow-gray-700 rounded-md hover:bg-gray-700 hover:text-white duration-300'>
+            질문하기
+          </button>
+        )}
+      </div>
       <div className='flex'>
-        <ProfessorTable professor={data.professor} />
-        <QuestionTable data={data} />
+        <ProfessorTable professor={professor} />
+        <QuestionTable data={data} question={question} />
       </div>
     </div>
   );

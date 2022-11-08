@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router';
 import QuestionBox from './QuestionBox';
 
-const QuestionTable = ({ data }) => {
+const QuestionTable = ({ data, question }) => {
   const { subject: courseName, questions } = data;
 
   const router = useRouter();
