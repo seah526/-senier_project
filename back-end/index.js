@@ -95,11 +95,13 @@ app.post('/lectures/:lecID/questions', (req, res) => {
 
     var lecId = req.params.lecID;
     var title = req.body.title;
+    var authID = req.body.authorID;
     var contents = req.body.contents;
 
-    connection.query(`INSERT INTO Question (lectureId, title, contents) VALUES(${lecId}, '${title}', '${contents}')`, (err, result) => {
+    connection.query(`INSERT INTO Question (lectureId, authorId, title, contents) VALUES(${lecId}, ${authID}, '${title}', '${contents}')`, (err, result) => {
         if(err) throw err;
         console.log("1 record inserted");
+        console.log(result);
     });
     res.redirect('/');
     // res.send('ok')
