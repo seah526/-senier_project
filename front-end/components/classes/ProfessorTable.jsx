@@ -10,7 +10,7 @@ const ProfessorTable = () => {
   return (
     <div className='mr-10 mt-10'>
       {DUMMY.map(ele => {
-        return <Professor data={ele} />;
+        return <Professor key={ele.id} data={ele} />;
       })}
     </div>
   );
