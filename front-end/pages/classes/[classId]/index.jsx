@@ -1,10 +1,10 @@
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
-import ProfessorTable from '../../components/classes/ProfessorTable';
-import QuestionBox from '../../components/classes/QuestionBox';
-import QuestionTable from '../../components/classes/QuestionTable';
-import axiosInstance from '../api';
-import getLoginId from '../api/login';
+import ProfessorTable from '../../../components/classes/ProfessorTable';
+import QuestionBox from '../../../components/classes/QuestionBox';
+import QuestionTable from '../../../components/classes/QuestionTable';
+import axiosInstance from '../../api';
+import getLoginId from '../../api/login';
 const DUMMY_DATA = {
   id: 1,
   subject: '컴퓨터네트워크',
@@ -47,9 +47,11 @@ const ClassId = () => {
   const loginId = getLoginId();
   const router = useRouter();
   const courseId = router.query.classId;
+  const professorId = router.query.professor || -1;
   const [data, setData] = useState(DUMMY_DATA);
   const [professor, setProfessor] = useState([]);
   const [question, setQuestion] = useState([]);
+  const path = router.asPath;
   useEffect(() => {
     if (router.isReady) {
       axiosInstance.get(`lectures/${courseId}/questions`).then(res => {
@@ -66,7 +68,13 @@ const ClassId = () => {
       <div className='flex justify-between'>
         <div className='text-3xl my-2 font-semibold'>{data.subject}</div>
         {loginId && (
-          <button className='mx-3 bg-slate-500 py-2 px-16 text-base shadow-inner shadow-gray-700 rounded-md hover:bg-gray-700 hover:text-white duration-300'>
+          <button
+            onClick={() => {
+              router.push(
+                `/classes/${courseId}/makequestion?professor=${professorId}`
+              );
+            }}
+            className='mx-3 bg-slate-500 py-2 px-16 text-base shadow-inner shadow-gray-700 rounded-md hover:bg-gray-700 hover:text-white duration-300'>
             질문하기
           </button>
         )}

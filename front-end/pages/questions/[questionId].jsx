@@ -1,6 +1,8 @@
 import React from 'react';
 import AnswerSet from '../../components/question/AnswerSet';
+import NewAnswer from '../../components/question/NewAnswer';
 import QuestionDetailQ from '../../components/question/QuestionDetailQ';
+import getLoginId from '../api/login';
 const DUMMY_QUESTION = {
   author: { nickname: 'nickname' },
   date: '2019-3-4',
@@ -24,10 +26,12 @@ const DUMMY_ANSWERS = [
   },
 ];
 const questionId = () => {
+  const loginId = getLoginId();
   return (
     <div>
       <QuestionDetailQ question={DUMMY_QUESTION} />
       <AnswerSet answers={DUMMY_ANSWERS} />
+      {loginId && <NewAnswer />}
     </div>
   );
 };
