@@ -1,14 +1,30 @@
 import React from 'react';
 import styled from 'styled-components';
+import getLoginId from '../../pages/api/login';
 
 const AnswerDetail = ({ answers }) => {
   const date = new Date(answers?.createdAt);
+  const loginId = getLoginId();
+  const deleteQuestionHandler = e => {
+    const ans = confirm('정말 삭제하시겠습니까?');
+    if (ans) alert('삭제');
+  };
   return (
     <div>
       <Wrapper>
-        <div className='title'>
-          <span className='a-title'>A. </span>
+        <div className='flex justify-between'>
+          <div className='title'>
+            <span className='a-title'>A. </span>
+          </div>
+          {loginId == answers.author.nickname && (
+            <button
+              onClick={deleteQuestionHandler}
+              className='text-lg mr-2 cursor-pointer'>
+              x
+            </button>
+          )}
         </div>
+
         <div className='title-date'>
           {answers?.author.nickname} · {date.toLocaleString()}
         </div>

@@ -1,4 +1,8 @@
+import { useRouter } from 'next/router';
+
 export default function QuestionForm() {
+  const router = useRouter();
+  const lecId = router.query.classId;
   const submitHandler = e => {
     e.preventDefault();
   };

@@ -47,7 +47,7 @@ const ClassId = () => {
   const loginId = getLoginId();
   const router = useRouter();
   const courseId = router.query.classId;
-  const professorId = router.query.professor || -1;
+  const professorId = router.query.professor || 1;
   const [data, setData] = useState(DUMMY_DATA);
   const [professor, setProfessor] = useState([]);
   const [question, setQuestion] = useState([]);
