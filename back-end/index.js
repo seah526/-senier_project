@@ -38,13 +38,14 @@ app.get('/lectures/:lecID/professors', (req, res) => {
             let result = Object.values(JSON.parse(JSON.stringify(rows)));
             result.forEach((v) => profIDS.push(v.profID));
 
-            console.log(profIDS);
-
-            connection.query(`SELECT * from Professor WHERE id in (${profIDS})`, (err, results) => {
-                if(err) throw err;
-                console.log(results);
-                res.json(results);
-            })
+            if(profIDS.length == 0){
+                res.json(profIDS);
+            } else{
+                connection.query(`SELECT * from Professor WHERE id in (${profIDS})`, (err, results) => {
+                    if(err) throw err;
+                    res.json(results);
+                });
+            }
             // res.json(rows);
         });
 
