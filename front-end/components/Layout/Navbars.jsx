@@ -162,7 +162,7 @@ export default function Example({ children }) {
       <div className='container mx-auto max-w-7xl px-2 sm:px-6 lg:px-8 flex-grow'>
         {children}
       </div>
-      <footer className='p-4 bg-gray-400'>
+      <footer className='p-4 bg-gray-700'>
         <div className='container mx-auto max-w-7xl px-10 sm:px-8 lg:px-20'>
           footer
         </div>
