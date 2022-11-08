@@ -1,6 +1,8 @@
 import axios from 'axios';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
+import LoginForm from '../components/login/LoginForm';
+import LoginModal from '../components/login/LoginModal';
 export default function Home() {
   const router = useRouter();
   
