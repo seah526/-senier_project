@@ -1,29 +1,30 @@
-import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
-import QuestionBox from "./QuestionBox";
+import { useRouter } from 'next/router';
+import { useEffect, useState } from 'react';
+import axiosInstance from '../../pages/api';
+import QuestionBox from './QuestionBox';
 const questions = [
   {
     createdAt: new Date(),
     id: 1,
-    title: "네트워크",
+    title: '네트워크',
     author: {
-      nickname: "2je0",
+      nickname: '2je0',
     },
-    contents: "제목있음",
+    contents: '제목있음',
     answerCount: 10,
   },
   {
     createdAt: new Date(),
-    id: 1,
-    title: "네트워크",
+    id: 2,
+    title: '네트워크',
     author: {
-      nickname: "2je0",
+      nickname: '2je0',
     },
-    contents: "제목있음",
+    contents: '제목있음',
     answerCount: 10,
   },
 ];
-const courseName = "컴퓨터네트워크";
+const courseName = '네트워크';
 const QuestionTable = ({ courseId }) => {
   //   const [questions, setQuestions] = useState("");
   //   const [courseName, setCourseName] = useState("");
@@ -50,7 +51,7 @@ const QuestionTable = ({ courseId }) => {
 
   return (
     <ul>
-      {questions.map((question) => {
+      {questions.map(question => {
         return (
           <QuestionBox
             key={question.id}
