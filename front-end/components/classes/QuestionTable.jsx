@@ -12,17 +12,18 @@ const QuestionTable = ({ data }) => {
       if (filterProfessor == -1 || filterProfessor == undefined) return true;
       return ele.professor.id == filterProfessor;
     });
+  const renderData = sortedQuestions.map(question => {
+    return (
+      <QuestionBox
+        key={question.id}
+        question={question}
+        courseName={courseName}
+      />
+    );
+  });
   return (
     <ul>
-      {sortedQuestions.map(question => {
-        return (
-          <QuestionBox
-            key={question.id}
-            question={question}
-            courseName={courseName}
-          />
-        );
-      })}
+      {renderData.length > 0 ? renderData : <div>표시할 데이터 없음</div>}
     </ul>
   );
 };
