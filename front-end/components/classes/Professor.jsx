@@ -4,7 +4,6 @@ import { useRouter } from 'next/router';
 const Professor = ({ data }) => {
   const router = useRouter();
   const path = router.query.classId;
-  const active = 1;
   const handleClick = id => {
     router.push({ pathname: path, query: { professor: data.id } });
   };
@@ -14,7 +13,7 @@ const Professor = ({ data }) => {
       onClick={() => {
         handleClick(data.id);
       }}>
-      <div>{data.name}</div>
+      <div>{`${data.name}${data.id == -1 ? '' : ' 교수님'}`}</div>
     </Wapper>
   );
 };

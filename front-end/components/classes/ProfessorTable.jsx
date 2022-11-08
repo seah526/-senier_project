@@ -1,15 +1,11 @@
 import React from 'react';
 import Professor from './Professor';
-const DUMMY = [
-  { name: '김ㅇㅇ', id: 1 },
-  { name: '이ㅇㅇ', id: 2 },
-  { name: '박ㅇㅇ', id: 3 },
-  { name: '최ㅇㅇ', id: 4 },
-];
-const ProfessorTable = () => {
+
+const ProfessorTable = ({ professor }) => {
   return (
     <div className='mr-10 mt-10'>
-      {DUMMY.map(ele => {
+      <Professor key={-1} data={{ id: -1, name: '전체보기' }} />
+      {professor.map(ele => {
         return <Professor key={ele.id} data={ele} />;
       })}
     </div>

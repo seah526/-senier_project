@@ -1,15 +1,15 @@
-import { useRouter } from "next/router";
-import React, { useEffect, useState } from "react";
-import styled from "styled-components";
+import { useRouter } from 'next/router';
+import React, { useEffect, useState } from 'react';
+import styled from 'styled-components';
 
-const QuestionBox = ({ question, courseName }) => {
+const QuestionBox = ({ question, courseName, professor }) => {
   const router = useRouter();
 
-  const handleClick = (questionId) => {
+  const handleClick = questionId => {
     router.push(`/questions/${questionId}`);
   };
 
-  const [timeBefore, setTimeBefore] = useState("");
+  const [timeBefore, setTimeBefore] = useState('');
   useEffect(() => {
     const now = new Date();
     const createTime = new Date(question.createdAt);
@@ -32,10 +32,10 @@ const QuestionBox = ({ question, courseName }) => {
         handleClick(question.id);
       }}>
       <div className='left'>
-        <header className='title'>{question.title || "제목없음"}</header>
+        <header className='title'>{question.title || '제목없음'}</header>
         <section className='contents'>{question.contents}</section>
         <div className='info'>
-          {`${question.author.nickname} · ${timeBefore} · ${courseName}`}
+          {`${question.author.nickname} · ${timeBefore} · ${courseName} · ${question.professor.name} 교수님`}
         </div>
       </div>
       <div className='right'>
