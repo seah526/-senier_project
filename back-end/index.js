@@ -198,17 +198,13 @@ app.post('/lectures/:lecID/questions', (req, res) => {
     var profId = req.body.profID;
     var createdAt = req.body.createdAt;
 
-    // var time = new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '') ;
-    // var time = new Date().toISOString().slice(0, 19).replace('T', ' ');
-
     connection.query(`INSERT INTO Question (Author, lectureId, profId, title, contents, ansCount, createdAt) 
         VALUES(${auth}, ${lecId}, '${profId}', '${title}', '${contents}', 0, ${createdAt})`, 
         (err, result) => {
             if(err) throw err;
-            console.log("1 record inserted");
-            console.log(result);
+            console.log("1 question inserted");
         });
-        res.redirect(`/lectures/${lecId}`);
+        res.redirect(`/lectures/:${lecId}`);
 });
 
 //답변 작성 api
@@ -216,12 +212,14 @@ app.post('/questions/:qID/answers', (req, res) => {
 
     var qId = req.params.qID;
     var contents = req.body.contents;
+    var author = req.body.author;
+    var createdAt = req.body.createdAt;
+    var profId = req.body.profID;
 
-    connection.query(`INSERT INTO Answer (questionId, contents) VALUES (${qId}, '${contents}')`, (err, result) => {
+    connection.query(`INSERT INTO Answer (author, questionId, contents, createdAt) VALUES ('${author}', ${qId}, '${contents}', ${createdAt})`, (err, result) => {
         if(err) throw err;
-        console.log(result);
         console.log("1 answer inserted!");
-        res.redirect('/');
+        res.redirect(`/questions/:${qID}`);
     });
 });
 
