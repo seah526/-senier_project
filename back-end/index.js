@@ -25,51 +25,94 @@ app.get('/lectures', (req, res) => {
   });
 });
 
-//해당 과목 중 특정 교수님 분반의 질문 목록 반환
-app.get('/lectures/:lecID/professors', (req, res) => {
+
+app.get('/lectures/:lecID', (req, res) => {
     const lecId = parseInt(req.params.lecID);
 
     if(isNaN(lecId)){
         res.send('err');
-    } else{
-        connection.query(`SELECT profID from Prof_Lec WHERE lecID=${lecId}`, (err, rows) => {
+    }else{
+        connection.query(`SELECT id, title from Lecture WHERE id=${lecId}`, (err, row) => {
             if(err) throw err;
-            let profIDS = [];
-            let result = Object.values(JSON.parse(JSON.stringify(rows)));
-            result.forEach((v) => profIDS.push(v.profID));
+            let lecData = {};
 
-            if(profIDS.length == 0){
-                res.json(profIDS);
-            } else{
-                connection.query(`SELECT * from Professor WHERE id in (${profIDS})`, (err, results) => {
-                    if(err) throw err;
-                    res.json(results);
-                });
-            }
-            // res.json(rows);
+            lecData.id = Object.values(JSON.parse(JSON.stringify(row)))[0].id;
+            lecData.subject = Object.values(JSON.parse(JSON.stringify(row)))[0].title;
+            lecData.professor = new Array();
+            lecData.questions = new Array();
+
+            connection.query(`SELECT profID from Prof_Lec WHERE lecID=${lecId}`, async (err, rows) => {
+                if(err) throw err;
+                let profIDS = [];
+                let result = Object.values(JSON.parse(JSON.stringify(rows)));
+                result.forEach((v) => profIDS.push(v.profID));
+    
+                if(profIDS.length == 0){
+                    res.json(profIDS);
+                } else{
+                    await connection.query(`SELECT * from Professor WHERE id in (${profIDS})`, (err, results) => {
+                        if(err) throw err;
+                        let temp = Object.values(JSON.parse(JSON.stringify(results)));
+                        temp.forEach((v) => lecData.professor.push(v));
+
+                        connection.query(`SELECT * from Question WHERE lectureId=${lecId}`, (err, q) => {
+                            if(err) throw err;
+                            let tempQ = Object.values(JSON.parse(JSON.stringify(q)));
+                            tempQ.forEach((v) => lecData.questions.push(v));
+                            res.json(lecData);
+                        });
+                    });
+                }
+            });
         });
-
     }
 });
+
+//해당 과목 중 특정 교수님 분반의 질문 목록 반환
+// app.get('/lectures/:lecID/professors', (req, res) => {
+//     const lecId = parseInt(req.params.lecID);
+
+//     if(isNaN(lecId)){
+//         res.send('err');
+//     } else{
+//         connection.query(`SELECT profID from Prof_Lec WHERE lecID=${lecId}`, (err, rows) => {
+//             if(err) throw err;
+//             let profIDS = [];
+//             let result = Object.values(JSON.parse(JSON.stringify(rows)));
+//             result.forEach((v) => profIDS.push(v.profID));
+
+//             if(profIDS.length == 0){
+//                 res.json(profIDS);
+//             } else{
+//                 connection.query(`SELECT * from Professor WHERE id in (${profIDS})`, (err, results) => {
+//                     if(err) throw err;
+//                     res.json(results);
+//                 });
+//             }
+//             // res.json(rows);
+//         });
+
+//     }
+// });
 
 //선택한 과목에 해당하는 전체 질문 목록 반환
-app.get('/lectures/:lecID/questions', (req, res) => {
-    const lecId  = parseInt(req.params.lecID);
+// app.get('/lectures/:lecID/questions', (req, res) => {
+//     const lecId  = parseInt(req.params.lecID);
 
-    if (isNaN(lecId)) {
-        console.log("err");
-		// return res.json(stat(400, 'Lecture id must be integer.'));
-	}
-    try{
-        connection.query(`SELECT * from Question WHERE lectureId=${lecId}`, (err, rows) => {
-            if(err) throw err;
-            res.json(rows);
-        })
+//     if (isNaN(lecId)) {
+//         console.log("err");
+// 		return res.json(stat(400, 'Lecture id must be integer.'));
+// 	}
+//     try{
+//         connection.query(`SELECT * from Question WHERE lectureId=${lecId}`, (err, rows) => {
+//             if(err) throw err;
+//             res.json(rows);
+//         })
 
-    } catch(err){
-		// return res.json(stat(500, err.message));
-    }
-});
+//     } catch(err){
+// 		return res.json(stat(500, err.message));
+//     }
+// });
 
 //특정 과목 & 특정 교수님 분반에 해당하는 질문 목록 반환
 app.get('/lectures/:lecID/professor/:profID/questions', (req, res) => {
