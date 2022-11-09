@@ -43,22 +43,43 @@ const DUMMY_DATA = {
     },
   ],
 };
+const DUMMY_DATA2 = {
+  id: 1,
+  subject: '',
+  professor: [],
+  questions: [],
+};
 const ClassId = () => {
   const loginId = getLoginId();
   const router = useRouter();
   const courseId = router.query.classId;
   const professorId = router.query.professor || 1;
-  const [data, setData] = useState(DUMMY_DATA);
+  const [data, setData] = useState({});
   const [professor, setProfessor] = useState([]);
   const [question, setQuestion] = useState([]);
   const path = router.asPath;
   useEffect(() => {
     if (router.isReady) {
-      axiosInstance.get(`lectures/${courseId}/questions`).then(res => {
-        setQuestion(res.data);
-      });
-      axiosInstance.get(`lectures/${courseId}/professors`).then(res => {
-        setProfessor(res.data);
+      // axiosInstance.get(`lectures/${courseId}/questions`).then(res => {
+      //   setQuestion(res.data);
+      // });
+      // axiosInstance.get(`lectures/${courseId}/professors`).then(res => {
+      //   setProfessor(res.data);
+      // });
+      axiosInstance.get(`lectures/${courseId}`).then(res => {
+        // console.log(res.data);
+        res.data.questions?.map(ele1 => {
+          const profName = res.data.professor.filter(
+            ele2 => ele2.id == ele1.profId
+          );
+          const professor = profName[0] || { id: -1, name: '' };
+          const author = { id: 1, nickname: ele1.Author };
+          ele1.professor = professor;
+          ele1.author = author;
+          ele1.answerCount = ele1.ansCount || 0;
+        });
+        setData(res.data);
+        // console.log(res.data);
       });
     }
   }, [router.isReady]);
@@ -80,7 +101,7 @@ const ClassId = () => {
         )}
       </div>
       <div className='flex'>
-        <ProfessorTable professor={professor} />
+        <ProfessorTable professor={data.professor} />
         <QuestionTable data={data} question={question} />
       </div>
     </div>

@@ -7,11 +7,14 @@ const QuestionTable = ({ data, question }) => {
   const router = useRouter();
   const filterProfessor = router.query.professor;
   const sortedQuestions = questions
-    .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
-    .filter(ele => {
-      if (filterProfessor == -1 || filterProfessor == undefined) return true;
-      return ele.professor.id == filterProfessor;
-    });
+    ? questions
+        .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+        .filter(ele => {
+          if (filterProfessor == -1 || filterProfessor == undefined)
+            return true;
+          return ele.professor.id == filterProfessor;
+        })
+    : [];
   const renderData = sortedQuestions.map(question => {
     return (
       <QuestionBox
