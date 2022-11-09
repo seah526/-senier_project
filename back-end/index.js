@@ -99,27 +99,6 @@ app.get('/questions/:qID', (req, res) => {
         if(err) throw err;
         res.json(row);
     });
-    connection.query(`SELECT * from Answer WHERE questionId=${qId}`, (err, row) => {
-        if(err) throw err;
-        res.json(row);
-    });
-});
-
-//과목에 해당하는 질문 작성 
-app.post('/lectures/:lecID/questions', (req, res) => {
-
-    var lecId = req.params.lecID;
-    var title = req.body.title;
-    var authID = req.body.authorID;
-    var contents = req.body.contents;
-
-    connection.query(`INSERT INTO Question (lectureId, authorId, title, contents) VALUES(${lecId}, ${authID}, '${title}', '${contents}')`, (err, result) => {
-        if(err) throw err;
-        console.log("1 record inserted");
-        console.log(result);
-    });
-    res.redirect('/');
-    // res.send('ok')
 });
 
 //질문에 해당하는 답변 목록 반환
@@ -130,6 +109,28 @@ app.get('/questions/:qID/answers', (req, res) => {
         if(err) throw err;
         res.json(rows);
     })
+});
+
+//과목에 해당하는 질문 작성 
+app.post('/lectures/:lecID/questions', (req, res) => {
+
+    var lecId = req.params.lecID;
+    var title = req.body.title;
+    var authID = req.body.authorID;
+    var contents = req.body.contents;
+    // var time = new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '') ;
+    var time = new Date().toISOString().slice(0, 19).replace('T', ' ');
+
+
+    console.log(time);
+
+    connection.query(`INSERT INTO Question (lectureId, authorId, title, contents, createdAt) VALUES(${lecId}, ${authID}, '${title}', '${contents}', '${time}')`, (err, result) => {
+        if(err) throw err;
+        console.log("1 record inserted");
+        console.log(result);
+    });
+    res.redirect('/');
+    // res.send('ok')
 });
 
 //답변 작성 api
