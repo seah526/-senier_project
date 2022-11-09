@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import ProfessorTable from '../../../components/classes/ProfessorTable';
 import QuestionBox from '../../../components/classes/QuestionBox';
 import QuestionTable from '../../../components/classes/QuestionTable';
+import LoadingBox from '../../../components/loading/LoadingBox';
 import axiosInstance from '../../api';
 import getLoginId from '../../api/login';
 const DUMMY_DATA = {
@@ -58,6 +59,7 @@ const ClassId = () => {
   const [professor, setProfessor] = useState([]);
   const [question, setQuestion] = useState([]);
   const path = router.asPath;
+  const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
     if (router.isReady) {
       // axiosInstance.get(`lectures/${courseId}/questions`).then(res => {
@@ -79,11 +81,13 @@ const ClassId = () => {
           ele1.answerCount = ele1.ansCount || 0;
         });
         setData(res.data);
+        setIsLoading(false);
         // console.log(res.data);
       });
     }
   }, [router.isReady]);
   //TODO: api fetching
+  if (isLoading) return <LoadingBox />;
   return (
     <div className='my-20 '>
       <div className='flex justify-between'>
