@@ -17,6 +17,22 @@ app.get('/', (req, res) => {
   res.send('Root');
 });
 
+//id 중복 확인 
+app.get('/checkID', (req, res) => {
+    const nickname = req.body.id;
+
+    connection.query(`SELECT COUNT (*) from User WHERE nickname='${nickname}'`, (err, result) => {
+        if(err) throw err;
+
+        let check = Object.values(Object.values(JSON.parse(JSON.stringify(result)))[0])[0];
+        if(check){
+            res.send(true);
+        } else{
+            res.send(false);
+        }
+    });
+});
+
 //계정 존재 유무 확인 
 app.get('/login', (req, res) => {
     const id = req.body.id;
