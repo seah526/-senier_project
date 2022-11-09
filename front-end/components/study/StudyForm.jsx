@@ -18,10 +18,10 @@ export default function StudyForm() {
               </div>
             </div>
             <div className='px-4 sm:px-0'>
-              <h3 className='text-lg font-medium leading-6 text-gray-900'>
-                Profile
+              <h3 className='text-3xl font-bold leading-6 text-white mb-5'>
+                스터디 만들기
               </h3>
-              <p className='mt-1 text-sm text-white'>
+              <p className='mt-1 text-base text-white font-medium'>
                 This information will be displayed publicly so be careful what
                 you share.
               </p>

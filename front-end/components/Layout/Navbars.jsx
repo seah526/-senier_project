@@ -10,6 +10,7 @@ const navigation = [
   { name: '전공필수', href: '/classes', current: true },
   { name: '전공일반', href: '/classes', current: false },
   { name: '스터디', href: '/study', current: false },
+  { name: '아이캠퍼스', href: 'https://icampus.skku.edu/', current: false },
 ];
 
 function classNames(...classes) {
@@ -65,20 +66,21 @@ export default function Example({ children }) {
                       }}
                       className=' cursor-pointer flex flex-shrink-0 items-center'>
                       <img
-                        className='hidden h-8 w-auto lg:block'
-                        src='https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500'
+                        className='hidden h-12 w-auto lg:block '
+                        // src='https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500'
+                        src='https://cdn.pixabay.com/photo/2016/06/29/16/36/logo-1487245_1280.png'
                         alt='Your Company'
                       />
                     </div>
                     <div className='hidden sm:ml-6 sm:block'>
-                      <div className='flex space-x-4'>
+                      <div className='flex space-x-4 mt-3'>
                         {navigation.map(item => (
                           <Link
                             key={item.name}
                             href={item.href}
                             className={classNames(
                               item.current
-                                ? 'bg-gray-900 text-white'
+                                ? 'bg-gray-900 text-white '
                                 : 'text-gray-300 hover:bg-gray-700 hover:text-white',
                               'px-3 py-2 rounded-md text-sm font-medium'
                             )}

@@ -28,6 +28,7 @@ const DUMMY_DATA2 = {
 const index = () => {
   const [data1, setData1] = useState([]);
   const [data2, setData2] = useState([]);
+  const [data3, setData3] = useState([]);
   useEffect(() => {
     axiosInstance.get('lectures').then(res => {
       setData1(
@@ -40,12 +41,18 @@ const index = () => {
           return ele.type == 1;
         })
       );
+      setData3(
+        res.data.filter(ele => {
+          return ele.type == 2;
+        })
+      );
     });
   }, []);
   return (
     <div>
       <Classes key={'전공필수'} type={'전공필수'} data={data1} />
       <Classes key={'전공일반'} type={'전공일반'} data={data2} />
+      <Classes key={'실험 및 실습'} type={'실험 및 실습'} data={data3} />
     </div>
   );
 };
