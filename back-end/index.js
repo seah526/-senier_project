@@ -192,22 +192,23 @@ app.get('/questions/:qID/answers', (req, res) => {
 app.post('/lectures/:lecID/questions', (req, res) => {
 
     var lecId = req.params.lecID;
+    var auth = req.body.author;
     var title = req.body.title;
-    var authID = req.body.authorID;
     var contents = req.body.contents;
+    var profId = req.body.profID;
+    var createdAt = req.body.createdAt;
+
     // var time = new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '') ;
-    var time = new Date().toISOString().slice(0, 19).replace('T', ' ');
+    // var time = new Date().toISOString().slice(0, 19).replace('T', ' ');
 
-
-    console.log(time);
-
-    connection.query(`INSERT INTO Question (lectureId, authorId, title, contents, createdAt) VALUES(${lecId}, ${authID}, '${title}', '${contents}', '${time}')`, (err, result) => {
-        if(err) throw err;
-        console.log("1 record inserted");
-        console.log(result);
-    });
-    res.redirect('/');
-    // res.send('ok')
+    connection.query(`INSERT INTO Question (Author, lectureId, profId, title, contents, ansCount, createdAt) 
+        VALUES(${auth}, ${lecId}, '${profId}', '${title}', '${contents}', 0, ${createdAt})`, 
+        (err, result) => {
+            if(err) throw err;
+            console.log("1 record inserted");
+            console.log(result);
+        });
+        res.redirect(`/lectures/${lecId}`);
 });
 
 //답변 작성 api
