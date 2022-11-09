@@ -17,6 +17,24 @@ app.get('/', (req, res) => {
   res.send('Root');
 });
 
+//계정 존재 유무 확인 
+app.get('/login', (req, res) => {
+    const id = req.body.id;
+    const pwd = req.body.password;
+
+    connection.query(`SELECT COUNT (*) from User WHERE nickname='${id}' AND password='${pwd}'`, (err, result) => {
+        if(err) throw err;
+
+        let check = Object.values(Object.values(JSON.parse(JSON.stringify(result)))[0])[0];
+
+        if(check){
+            res.send(true);
+        } else{
+            res.send(false);
+        }
+    });
+});
+
 //전체 과목 목록 반환
 app.get('/lectures', (req, res) => {
   connection.query('SELECT id, title, type from Lecture', (error, rows) => {
