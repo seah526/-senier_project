@@ -7,7 +7,7 @@ export default function Home() {
   const router = useRouter();
   
   return (
-    <div className='flex grid-cols-2 gap-10 mt-36 justify-around mx-200'>
+    <div className='flex grid-cols-2 gap-10 my-24 justify-around mx-200'>
       <div className=' w-40'></div>
       <div
         onClick={() => {

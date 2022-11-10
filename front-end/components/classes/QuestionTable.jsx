@@ -25,7 +25,7 @@ const QuestionTable = ({ data, question }) => {
     );
   });
   return (
-    <ul>
+    <ul className='flex-grow'>
       {renderData.length > 0 ? renderData : <div>표시할 데이터 없음</div>}
     </ul>
   );

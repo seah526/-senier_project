@@ -31,14 +31,14 @@ const QuestionBox = ({ question, courseName, professor }) => {
       onClick={() => {
         handleClick(question.id);
       }}>
-      <div className='left'>
+      <div className='left  min-w-max'>
         <header className='title'>{question.title || '제목없음'}</header>
         <section className='contents'>{question.contents}</section>
         <div className='info'>
           {`${question.author.nickname} · ${timeBefore} · ${courseName} · ${question.professor.name} 교수님`}
         </div>
       </div>
-      <div className='right'>
+      <div className='right min-w-max'>
         <div className='circle'>
           {question.answerCount}
           <div className='circle-text'>답변</div>
@@ -59,7 +59,6 @@ const Wapper = styled.li`
   padding: 20px;
   border-bottom: 1px solid #dee2e6;
   display: flex;
-  width: 1000px;
   list-style: none;
   text-overflow: ellipsis;
   .left {
