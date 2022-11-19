@@ -1,0 +1,17 @@
+doctype html
+html
+  head
+    title= title
+    link(rel='stylesheet', href='/stylesheets/style.css')
+  body
+    a(href="/") Home
+    span  
+    if isLogined
+      span welcome, #{userName}!
+      span   
+      a(href="/auth/logout") log out
+    else
+      a(href="/question") que
+      span  
+    //-   a(href="/join") join
+    block content
