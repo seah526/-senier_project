@@ -51,6 +51,17 @@ app.get('/login', (req, res) => {
     });
 });
 
+app.post('/signup', (req, res) => {
+    const id = req.body.id;
+    const pwd = req.body.password;
+
+    connection.query(`INSERT INTO User (nickname, password) VALUES ('${id}', '${pwd}')`, (err, result) => {
+        if(err) throw err;
+
+        res.send("success");
+    })
+});
+
 //전체 과목 목록 반환
 app.get('/lectures', (req, res) => {
   connection.query('SELECT id, title, type from Lecture', (error, rows) => {
@@ -195,33 +206,57 @@ app.post('/lectures/:lecID/questions', (req, res) => {
     var auth = req.body.author;
     var title = req.body.title;
     var contents = req.body.contents;
-    var profId = req.body.profID;
-    var createdAt = req.body.createdAt;
+    var profId = req.body.profId;
 
-    connection.query(`INSERT INTO Question (Author, lectureId, profId, title, contents, ansCount, createdAt) 
-        VALUES(${auth}, ${lecId}, '${profId}', '${title}', '${contents}', 0, ${createdAt})`, 
+    connection.query(`INSERT INTO Question (Author, lectureId, profId, title, contents, ansCount) 
+    VALUES('${auth}', ${lecId}, ${profId}, '${title}', '${contents}', 0)`, 
         (err, result) => {
             if(err) throw err;
-            console.log("1 question inserted");
+            res.send("success");
         });
-        res.redirect(`/lectures/:${lecId}`);
 });
 
 //답변 작성 api
 app.post('/questions/:qID/answers', (req, res) => {
 
     var qId = req.params.qID;
-    var contents = req.body.contents;
     var author = req.body.author;
-    var createdAt = req.body.createdAt;
-    var profId = req.body.profID;
+    var contents = req.body.contents;
 
-    connection.query(`INSERT INTO Answer (author, questionId, contents, createdAt) VALUES ('${author}', ${qId}, '${contents}', ${createdAt})`, (err, result) => {
+    connection.query(`INSERT INTO Answer (author, quetionId, contents) VALUES ('${author}', ${qId}, '${contents}')`, (err, result) => {
         if(err) throw err;
-        console.log("1 answer inserted!");
-        res.redirect(`/questions/:${qID}`);
+        res.send("success");
     });
 });
+
+// app.delete('/answer', (req, res) => {
+//     var questionId = req.body.questionID;
+//     var author = req.body.author;
+
+//     connection.query(`DELETE FROM Answer WHERE quetionId=${questionId} AND author='${author}'`, (err, result) => {
+//         if(err) throw err;
+//         res.send("success");
+//     })
+// });
+
+app.delete('/answer', (req, res) => {
+
+    var ansId = req.body.answerID;
+    var questionId = req.body.questionID;
+    var author = req.body.author;
+
+    connection.query(`DELETE FROM Answer WHERE id=${ansId} AND quetionId=${questionId} AND author='${author}'`, (err, result) => {
+        if(err) throw err;
+        res.send("success");
+    })
+})
+
+app.get('')
+
+
+
+
+
 
 app.listen(app.get('port'), () => {
   console.log('Express server listening on port ' + app.get('port'));

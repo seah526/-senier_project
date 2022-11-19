@@ -6,5 +6,5 @@ module.exports = {
     database : 'senior_proj',
     timezone: "Asia/Seoul",
     charset: "utf8mb4",
-    dateStrings: 'DATETIME'
+    dateStrings: 'TIMESTAMP'
   };
