@@ -251,10 +251,15 @@ app.delete('/answer', (req, res) => {
     })
 })
 
-app.get('')
+//전체 개설 스터디 목록 호출
+app.get('/study', (req, res) => {
+    
+    connection.query(`SELECT * FROM Study`, (err, rows) => {
+        if(err) throw err;
+        res.json(rows);
+    })
 
-
-
+});
 
 
 
