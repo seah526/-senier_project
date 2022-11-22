@@ -253,14 +253,27 @@ app.delete('/answer', (req, res) => {
 
 //전체 개설 스터디 목록 호출
 app.get('/study', (req, res) => {
-    
     connection.query(`SELECT * FROM Study`, (err, rows) => {
         if(err) throw err;
         res.json(rows);
     })
-
 });
 
+//study 개설 신청 
+app.post('/study', (req, res) => {
+
+    var title = req.body.title;
+    var userId = req.body.userId;
+    var url = req.body.url;
+    var email = req.body.email;
+    var contents = req.body.contents;
+    var cap = req.body.capacity;
+
+    connection.query(`INSERT INTO Study (title, userId, url, email, contents, capacity) VALUES ("${title}", ${userId}, "${url}", "${email}", "${contents}", ${cap}) `, (err, result) => {
+        if (err) throw err;
+        res.send("success");
+    });
+});
 
 
 app.listen(app.get('port'), () => {
