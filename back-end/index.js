@@ -275,6 +275,16 @@ app.post('/study', (req, res) => {
     });
 });
 
+app.delete('/study', (req, res) => {
+
+    let studyId = req.body.id;
+
+    connection.query(`DELETE FROM Study WHERE id=${studyId}`, (err, result) => {
+        if (err) throw err;
+        res.send("success!");
+
+    })
+});
 
 app.listen(app.get('port'), () => {
   console.log('Express server listening on port ' + app.get('port'));
