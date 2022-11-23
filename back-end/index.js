@@ -1,10 +1,10 @@
 const express = require('express');
 const mysql = require('mysql');
 const dbconfig = require('./config/dbconfig');
-
+const cors = require('cors');
 const connection = mysql.createConnection(dbconfig);
 const app = express();
-
+app.use(cors());
 app.set('port', process.env.PORT || 3000);
 
 app.get('/', (req, res) => {
