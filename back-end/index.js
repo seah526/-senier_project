@@ -224,7 +224,17 @@ app.post('/questions/:qID/answers', (req, res) => {
 
     connection.query(`INSERT INTO Answer (author, quetionId, contents) VALUES ('${author}', ${qId}, '${contents}')`, (err, result) => {
         if(err) throw err;
-        res.send("success");
+    });
+
+    connection.query(`SELECT ansCount from Question WHERE id=${qId}`, (err, result) => {
+        if(err) throw err;
+
+        let counts = Object.values(JSON.parse(JSON.stringify(result)))[0].ansCount+1;
+        connection.query(`UPDATE Question SET ansCount=${counts} WHERE id=${qId}`, (err, result) => {
+            if(err) throw err;
+
+            res.send("success");
+        })
     });
 });
 
