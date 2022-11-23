@@ -1,14 +1,28 @@
-import React from 'react';
+import { useRouter } from 'next/router';
+import React, { useRef } from 'react';
+import axiosInstance from '../../pages/api';
 
 const NewAnswer = () => {
+  const router = useRouter();
+  const qId = router.query.questionId;
+  const contentsInput = useRef();
   const submitHandler = e => {
+    const contents = contentsInput.current.value;
     e.preventDefault();
     const ans = confirm('답변을 올리시겠습니까?');
+    if (ans) {
+      axiosInstance.post(`questions/${qId}/answers`, {
+        author: localStorage.getItem('id'),
+        contents,
+      });
+      router.reload();
+    }
   };
   return (
     <form onSubmit={submitHandler}>
       <div className='mt-1'>
         <textarea
+          ref={contentsInput}
           id='about'
           name='about'
           rows={5}
