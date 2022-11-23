@@ -234,7 +234,7 @@ app.post('/questions/:qID/answers', (req, res) => {
             if(err) throw err;
 
             res.send("success");
-        })
+        });
     });
 });
 
@@ -256,7 +256,18 @@ app.delete('/answer', (req, res) => {
 
     connection.query(`DELETE FROM Answer WHERE id=${ansId} AND quetionId=${questionId} AND author='${author}'`, (err, result) => {
         if(err) throw err;
-        res.send("success");
+
+        // res.send("success");
+        connection.query(`SELECT ansCount from Question WHERE id=${questionId}`, (err, result) => {
+            if(err) throw err;
+    
+            let counts = Object.values(JSON.parse(JSON.stringify(result)))[0].ansCount-1;
+            connection.query(`UPDATE Question SET ansCount=${counts} WHERE id=${questionId}`, (err, result) => {
+                if(err) throw err;
+    
+                res.send("success");
+            });
+        });
     })
 })
 
