@@ -37,6 +37,7 @@ app.get('/checkID', (req, res) => {
 app.get('/login', (req, res) => {
     const id = req.body.id;
     const pwd = req.body.password;
+    console.log(req.body);
 
     connection.query(`SELECT COUNT (*) from User WHERE nickname='${id}' AND password='${pwd}'`, (err, result) => {
         if(err) throw err;
