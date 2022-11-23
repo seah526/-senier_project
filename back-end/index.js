@@ -2,10 +2,10 @@ const express = require('express');
 const mysql = require('mysql');
 const path = require('path');
 const dbconfig = require('./config/dbconfig');
-
+const cors = require('cors');
 const connection = mysql.createConnection(dbconfig);
 const app = express();
-
+app.use(cors());
 app.set('port', process.env.PORT || 3000);
 
 app.set('views', path.join(__dirname, 'views'));
