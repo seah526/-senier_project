@@ -5,7 +5,7 @@ const Professor = ({ data }) => {
   const router = useRouter();
   const path = router.query.classId;
   const handleClick = id => {
-    router.push({ pathname: path, query: { professor: data.id } });
+    router.replace({ pathname: path, query: { professor: data.id } });
   };
   return (
     <Wapper

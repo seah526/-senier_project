@@ -5,6 +5,7 @@ import { useRouter } from 'next/router';
 import React, { useRef, useState } from 'react';
 import styled from 'styled-components';
 import { LockClosedIcon } from '@heroicons/react/20/solid';
+import axiosInstance from '../../pages/api';
 const Container = styled.div`
   /* display: flex;
   flex-direction: column;
@@ -47,11 +48,37 @@ function LoginForm({ onClose, onOpenSignUp }) {
   const emailInput = useRef();
   const passwordInput = useRef();
   const [sendingMail, setSendingMail] = useState(false);
-  const loginHandler = e => {
+  const registerHandler = async e => {
     e.preventDefault();
-    localStorage.setItem('id', emailInput.current.value);
-    onClose();
-    router.reload();
+    const email = emailInput.current.value;
+    const pw = passwordInput.current.value;
+    const res = await axiosInstance.get('login', {
+      id: email,
+      pwd: pw,
+    });
+    if (res.data) {
+      localStorage.setItem('id', emailInput.current.value);
+      onClose();
+      router.reload();
+      return;
+    }
+    alert('회원가입을 해주세요');
+  };
+  const loginHandler = async e => {
+    e.preventDefault();
+    const email = emailInput.current.value;
+    const pw = passwordInput.current.value;
+    const res = await axiosInstance.get('login', {
+      id: email,
+      pwd: pw,
+    });
+    if (res.data) {
+      localStorage.setItem('id', emailInput.current.value);
+      onClose();
+      router.reload();
+      return;
+    }
+    alert('회원가입을 해주세요');
   };
 
   return (
@@ -145,6 +172,7 @@ function LoginForm({ onClose, onOpenSignUp }) {
                     로그인
                   </button>
                   <button
+                    onClick={registerHandler}
                     type='submit'
                     className='mt-2 group relative flex w-full justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2'>
                     <span className='absolute inset-y-0 left-0 flex items-center pl-3'>

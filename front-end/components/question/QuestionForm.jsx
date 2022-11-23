@@ -1,12 +1,33 @@
 import { useRouter } from 'next/router';
+import { useRef } from 'react';
+import axiosInstance from '../../pages/api';
 
 export default function QuestionForm() {
   const router = useRouter();
   const lecId = router.query.classId;
-  const submitHandler = e => {
+  const profId = router.query.professor;
+  const titleInput = useRef();
+  const contentsInput = useRef();
+  const req = async () => {
+    try {
+      const res = await axiosInstance.post(`lectures/${lecId}/questions`, {
+        lecId,
+        auth: localStorage.getItem('id'),
+        title: titleInput.current.value,
+        contents: contentsInput.current.value,
+        profId,
+      });
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+  const submitHandler = async e => {
     e.preventDefault();
     const ans = confirm('질문을 올리시겠습니까?');
-    router.push('/');
+    if (ans) {
+      req();
+    }
+    router.back();
   };
   return (
     <>
@@ -41,6 +62,7 @@ export default function QuestionForm() {
                       </label>
                       <div className='mt-1 flex rounded-md shadow-sm'>
                         <input
+                          ref={titleInput}
                           type='text'
                           name='company-website'
                           id='company-website'
@@ -59,6 +81,7 @@ export default function QuestionForm() {
                     </label>
                     <div className='mt-1'>
                       <textarea
+                        ref={contentsInput}
                         id='about'
                         name='about'
                         rows={10}
