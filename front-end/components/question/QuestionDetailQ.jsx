@@ -11,7 +11,7 @@ const QuestionDetailQ = ({ question }) => {
           {question?.title || '제목없음'}
         </div>
         <div className='title-date'>
-          {question?.author.nickname} · {question.date?.toLocaleString()}
+          {question?.author?.nickname} · {question.date?.toLocaleString()}
         </div>
         <div className='contents'>{question?.contents || '내용없음'}</div>
       </Wrapper>
