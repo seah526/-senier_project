@@ -2,9 +2,9 @@ const express = require('express');
 const mysql = require('mysql');
 const path = require('path');
 const dbconfig = require('./config/dbconfig');
-const cors = require('cors');
 const connection = mysql.createConnection(dbconfig);
 const app = express();
+const cors = require('cors');
 app.use(cors());
 app.set('port', process.env.PORT || 3000);
 
@@ -35,9 +35,8 @@ app.get('/checkID', (req, res) => {
 
 //계정 존재 유무 확인 
 app.get('/login', (req, res) => {
-    const id = req.body.id;
-    const pwd = req.body.password;
-
+    const id = req.query.id;
+    const pwd = req.query.password;
     connection.query(`SELECT COUNT (*) from User WHERE nickname='${id}' AND password='${pwd}'`, (err, result) => {
         if(err) throw err;
 
