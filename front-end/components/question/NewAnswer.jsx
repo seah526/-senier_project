@@ -1,6 +1,7 @@
 import { useRouter } from 'next/router';
 import React, { useRef } from 'react';
 import axiosInstance from '../../pages/api';
+import getLoginId from '../../pages/api/login';
 
 const NewAnswer = () => {
   const router = useRouter();
@@ -12,7 +13,7 @@ const NewAnswer = () => {
     const ans = confirm('답변을 올리시겠습니까?');
     if (ans) {
       axiosInstance.post(`questions/${qId}/answers`, {
-        author: localStorage.getItem('id'),
+        author: getLoginId(),
         contents,
       });
       router.reload();

@@ -1,18 +1,19 @@
 import { useRouter } from 'next/router';
 import { useRef } from 'react';
 import axiosInstance from '../../pages/api';
+import getLoginId from '../../pages/api/login';
 
 export default function QuestionForm() {
   const router = useRouter();
-  const lecId = router.query.classId;
+  const lecID = router.query.classId;
   const profId = router.query.professor;
   const titleInput = useRef();
   const contentsInput = useRef();
   const req = async () => {
     try {
-      const res = await axiosInstance.post(`lectures/${lecId}/questions`, {
-        lecId,
-        auth: localStorage.getItem('id'),
+      const res = await axiosInstance.post(`lectures/${lecID}/questions`, {
+        lecID,
+        author: getLoginId(),
         title: titleInput.current.value,
         contents: contentsInput.current.value,
         profId,
