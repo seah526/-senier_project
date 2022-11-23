@@ -6,6 +6,7 @@ import React, { useRef, useState } from 'react';
 import styled from 'styled-components';
 import { LockClosedIcon } from '@heroicons/react/20/solid';
 import axiosInstance from '../../pages/api';
+import axios from 'axios';
 const Container = styled.div`
   /* display: flex;
   flex-direction: column;
@@ -52,25 +53,21 @@ function LoginForm({ onClose, onOpenSignUp }) {
     e.preventDefault();
     const email = emailInput.current.value;
     const pw = passwordInput.current.value;
-    const res = await axiosInstance.get('login', {
+    const res = await axiosInstance.post('signup', {
       id: email,
-      pwd: pw,
+      password: pw,
     });
     if (res.data) {
-      localStorage.setItem('id', emailInput.current.value);
-      onClose();
-      router.reload();
+      alert('가입 성공');
       return;
     }
-    alert('회원가입을 해주세요');
   };
   const loginHandler = async e => {
     e.preventDefault();
     const email = emailInput.current.value;
     const pw = passwordInput.current.value;
     const res = await axiosInstance.get('login', {
-      id: email,
-      pwd: pw,
+      params: { id: email, password: pw },
     });
     if (res.data) {
       localStorage.setItem('id', emailInput.current.value);
