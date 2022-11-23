@@ -51,6 +51,17 @@ app.get('/login', (req, res) => {
     });
 });
 
+app.post('/signup', (req, res) => {
+    const id = req.body.id;
+    const pwd = req.body.password;
+
+    connection.query(`INSERT INTO User (nickname, password) VALUES ('${id}', '${pwd}')`, (err, result) => {
+        if(err) throw err;
+
+        res.send("success");
+    })
+});
+
 //전체 과목 목록 반환
 app.get('/lectures', (req, res) => {
   connection.query('SELECT id, title, type from Lecture', (error, rows) => {
@@ -195,36 +206,85 @@ app.post('/lectures/:lecID/questions', (req, res) => {
     var auth = req.body.author;
     var title = req.body.title;
     var contents = req.body.contents;
-    var profId = req.body.profID;
-    var createdAt = req.body.createdAt;
+    var profId = req.body.profId;
 
-    // var time = new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '') ;
-    // var time = new Date().toISOString().slice(0, 19).replace('T', ' ');
-
-    connection.query(`INSERT INTO Question (Author, lectureId, profId, title, contents, ansCount, createdAt) 
-        VALUES(${auth}, ${lecId}, '${profId}', '${title}', '${contents}', 0, ${createdAt})`, 
+    connection.query(`INSERT INTO Question (Author, lectureId, profId, title, contents, ansCount) 
+    VALUES('${auth}', ${lecId}, ${profId}, '${title}', '${contents}', 0)`, 
         (err, result) => {
             if(err) throw err;
-            console.log("1 record inserted");
-            console.log(result);
+            res.send("success");
         });
-        res.redirect(`/lectures/${lecId}`);
 });
 
 //답변 작성 api
 app.post('/questions/:qID/answers', (req, res) => {
 
     var qId = req.params.qID;
+    var author = req.body.author;
     var contents = req.body.contents;
 
-    connection.query(`INSERT INTO Answer (questionId, contents) VALUES (${qId}, '${contents}')`, (err, result) => {
+    connection.query(`INSERT INTO Answer (author, quetionId, contents) VALUES ('${author}', ${qId}, '${contents}')`, (err, result) => {
         if(err) throw err;
-        console.log(result);
-        console.log("1 answer inserted!");
-        res.redirect('/');
+        res.send("success");
     });
 });
 
+// app.delete('/answer', (req, res) => {
+//     var questionId = req.body.questionID;
+//     var author = req.body.author;
+
+//     connection.query(`DELETE FROM Answer WHERE quetionId=${questionId} AND author='${author}'`, (err, result) => {
+//         if(err) throw err;
+//         res.send("success");
+//     })
+// });
+
+app.delete('/answer', (req, res) => {
+
+    var ansId = req.body.answerID;
+    var questionId = req.body.questionID;
+    var author = req.body.author;
+
+    connection.query(`DELETE FROM Answer WHERE id=${ansId} AND quetionId=${questionId} AND author='${author}'`, (err, result) => {
+        if(err) throw err;
+        res.send("success");
+    })
+})
+
+//전체 개설 스터디 목록 호출
+app.get('/study', (req, res) => {
+    connection.query(`SELECT * FROM Study`, (err, rows) => {
+        if(err) throw err;
+        res.json(rows);
+    })
+});
+
+//study 개설 신청 
+app.post('/study', (req, res) => {
+
+    var title = req.body.title;
+    var userId = req.body.userId;
+    var url = req.body.url;
+    var email = req.body.email;
+    var contents = req.body.contents;
+    var cap = req.body.capacity;
+
+    connection.query(`INSERT INTO Study (title, userId, url, email, contents, capacity) VALUES ("${title}", ${userId}, "${url}", "${email}", "${contents}", ${cap}) `, (err, result) => {
+        if (err) throw err;
+        res.send("success");
+    });
+});
+
+app.delete('/study', (req, res) => {
+
+    let studyId = req.body.id;
+
+    connection.query(`DELETE FROM Study WHERE id=${studyId}`, (err, result) => {
+        if (err) throw err;
+        res.send("success!");
+
+    })
+});
 
 app.listen(app.get('port'), () => {
   console.log('Express server listening on port ' + app.get('port'));
