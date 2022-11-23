@@ -1,13 +1,25 @@
+import { useRouter } from 'next/router';
 import React from 'react';
 import styled from 'styled-components';
+import axiosInstance from '../../pages/api';
 import getLoginId from '../../pages/api/login';
 
 const AnswerDetail = ({ answers }) => {
   const date = new Date(answers?.createdAt);
   const loginId = getLoginId();
+  const router = useRouter();
   const deleteQuestionHandler = e => {
     const ans = confirm('정말 삭제하시겠습니까?');
-    if (ans) alert('삭제');
+    if (ans) {
+      axiosInstance.delete(`answer`, {
+        data: {
+          answerID: answers.id,
+          questionID: answers.quetionId,
+          author: answers.author.nickname,
+        },
+      });
+      router.reload();
+    }
   };
   return (
     <div>
